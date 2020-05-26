@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.hut.keshe.library.dao.BorrowInfoMapper">
+  <resultMap id="BaseResultMap" type="edu.hut.keshe.library.pojo.BorrowInfo">
+    <id column="borrow_id" jdbcType="INTEGER" property="borrowId" />
+    <result column="reader_id" jdbcType="BIGINT" property="readerId" />
+    <result column="book_id" jdbcType="INTEGER" property="bookId" />
+    <result column="borrow_time" jdbcType="TIMESTAMP" property="borrowTime" />
+    <result column="expire_time" jdbcType="TIMESTAMP" property="expireTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    borrow_id, reader_id, book_id, borrow_time, expire_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from borrow_info
+    where borrow_id = #{borrowId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from borrow_info
+    where borrow_id = #{borrowId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="edu.hut.keshe.library.pojo.BorrowInfo">
+    insert into borrow_info (borrow_id, reader_id, book_id, 
+      borrow_time, expire_time)
+    values (#{borrowId,jdbcType=INTEGER}, #{readerId,jdbcType=BIGINT}, #{bookId,jdbcType=INTEGER}, 
+      #{borrowTime,jdbcType=TIMESTAMP}, #{expireTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="edu.hut.keshe.library.pojo.BorrowInfo">
+    insert into borrow_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="borrowId != null">
+        borrow_id,
+      </if>
+      <if test="readerId != null">
+        reader_id,
+      </if>
+      <if test="bookId != null">
+        book_id,
+      </if>
+      <if test="borrowTime != null">
+        borrow_time,
+      </if>
+      <if test="expireTime != null">
+        expire_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="borrowId != null">
+        #{borrowId,jdbcType=INTEGER},
+      </if>
+      <if test="readerId != null">
+        #{readerId,jdbcType=BIGINT},
+      </if>
+      <if test="bookId != null">
+        #{bookId,jdbcType=INTEGER},
+      </if>
+      <if test="borrowTime != null">
+        #{borrowTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expireTime != null">
+        #{expireTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="edu.hut.keshe.library.pojo.BorrowInfo">
+    update borrow_info
+    <set>
+      <if test="readerId != null">
+        reader_id = #{readerId,jdbcType=BIGINT},
+      </if>
+      <if test="bookId != null">
+        book_id = #{bookId,jdbcType=INTEGER},
+      </if>
+      <if test="borrowTime != null">
+        borrow_time = #{borrowTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expireTime != null">
+        expire_time = #{expireTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where borrow_id = #{borrowId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="edu.hut.keshe.library.pojo.BorrowInfo">
+    update borrow_info
+    set reader_id = #{readerId,jdbcType=BIGINT},
+      book_id = #{bookId,jdbcType=INTEGER},
+      borrow_time = #{borrowTime,jdbcType=TIMESTAMP},
+      expire_time = #{expireTime,jdbcType=TIMESTAMP}
+    where borrow_id = #{borrowId,jdbcType=INTEGER}
+  </update>
+</mapper>

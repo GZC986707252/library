@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.hut.keshe.library.dao.ReaderMapper">
+  <resultMap id="BaseResultMap" type="edu.hut.keshe.library.pojo.Reader">
+    <id column="reader_id" jdbcType="BIGINT" property="readerId" />
+    <result column="reader_name" jdbcType="VARCHAR" property="readerName" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="status" jdbcType="BIT" property="status" />
+    <result column="fine" jdbcType="DECIMAL" property="fine" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    reader_id, reader_name, phone, status, fine, create_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from reader_info
+    where reader_id = #{readerId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from reader_info
+    where reader_id = #{readerId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="edu.hut.keshe.library.pojo.Reader">
+    insert into reader_info (reader_id, reader_name, phone, 
+      status, fine, create_time
+      )
+    values (#{readerId,jdbcType=BIGINT}, #{readerName,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
+      #{status,jdbcType=BIT}, #{fine,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="edu.hut.keshe.library.pojo.Reader">
+    insert into reader_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="readerId != null">
+        reader_id,
+      </if>
+      <if test="readerName != null">
+        reader_name,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="fine != null">
+        fine,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="readerId != null">
+        #{readerId,jdbcType=BIGINT},
+      </if>
+      <if test="readerName != null">
+        #{readerName,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=BIT},
+      </if>
+      <if test="fine != null">
+        #{fine,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="edu.hut.keshe.library.pojo.Reader">
+    update reader_info
+    <set>
+      <if test="readerName != null">
+        reader_name = #{readerName,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=BIT},
+      </if>
+      <if test="fine != null">
+        fine = #{fine,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where reader_id = #{readerId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="edu.hut.keshe.library.pojo.Reader">
+    update reader_info
+    set reader_name = #{readerName,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      status = #{status,jdbcType=BIT},
+      fine = #{fine,jdbcType=DECIMAL},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where reader_id = #{readerId,jdbcType=BIGINT}
+  </update>
+</mapper>
