@@ -1,0 +1,15 @@
+{
+	"code":0,
+	"msg":"success",
+	"data":{
+		"bookId":20201524,
+		"bookName":"活着",
+		"isbn":"1212453165",
+		"press":"清华大学出版社",
+		"author": "张三",
+		"publicationDate": "2020-10-12",
+		"price": 26.20,
+		"status":false,
+		"createTime": "2020-10-12" 
+	}
+}

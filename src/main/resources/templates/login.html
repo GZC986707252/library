@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head th:replace="_fragment::head(~{::title},~{::style})">
+		<meta charset="utf-8">
+		<title>登录</title>
+		<style type="text/css">
+			body{
+				background-color: #009F95;
+				padding-top: 150px;
+			}
+			.login-form{
+				background-color: white;
+				width: 400px;
+				padding: 20px 75px 20px 0px;
+				border-radius: 10px;
+				margin: 20px auto;
+				box-shadow: 12px 11px 2px 0 rgba(0,0,0,0.42)
+			}
+			h1{
+				text-align: center;
+				font-weight: bold;
+				color: white;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>图书借阅管理系统登录</h1>
+		<div class="login-form">
+			<form class="layui-form">
+				<div class="layui-form-item">
+				    <label class="layui-form-label">账号</label>
+				    <div class="layui-input-block">
+				      <input type="text" id="adminName" name="adminName" required  lay-verify="required" placeholder="请输入管理员账号" autocomplete="off" class="layui-input">
+				    </div>
+				</div>
+				<div class="layui-form-item">
+				    <label class="layui-form-label">密码</label>
+				    <div class="layui-input-block">
+				      <input type="password" id="password" name="password" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+				    </div>
+				</div>
+				<div class="layui-form-item">
+				    <div class="layui-input-block">
+				      <button class="layui-btn" lay-submit lay-filter="login-btn">立即登录</button>
+				    </div>
+				</div>
+			</form>
+		</div>
+		<script>
+		layui.use(['form','jquery','layer'], function(){
+		  	var form = layui.form,
+				$ = layui.jquery ,
+				layer = layui.layer;
+		  
+		  //监听提交
+		  form.on('submit(login-btn)', function(data){
+			$.post("/login.do",data.field,function (res) {
+				if(res.code!=0){
+					return layer.msg(res.msg,{icon:2});
+				}
+				return layer.msg("登录成功！",{icon:1,time:1300},function () {
+					window.location.href=res.data;
+				});
+			},'json');
+		    return false;
+		  });
+		});
+		</script>
+	</body>
+</html>

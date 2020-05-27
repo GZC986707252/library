@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head th:replace="_fragment::head(~{::title},~{::style})">
+		<meta charset="utf-8">
+		<title>书籍管理</title>
+		<style type="text/css">
+			.content{
+				margin: 10px 0px;
+			}
+		</style>
+	</head>
+	<body>
+		<div th:replace="_fragment::library-header('book')"></div>
+		<div class="content">
+			<div class="layui-container">
+				<div class="layui-form">
+					<div class="layui-form-item">
+						<div class="layui-inline">
+							<label class="layui-form-label">书籍ID</label>
+							<div class="layui-input-inline">
+							  <input type="text" id="bookId" name="bookId" autocomplete="off" class="layui-input">
+							</div>
+						</div>
+						<div class="layui-inline">
+							<label class="layui-form-label">书名</label>
+							<div class="layui-input-inline">
+							  <input type="text" name="bookName" autocomplete="off" class="layui-input">
+							</div>
+						</div>
+						<div class="layui-inline">
+							<label class="layui-form-label">ISBN</label>
+							<div class="layui-input-inline">
+							  <input type="text" name="isbn" autocomplete="off" class="layui-input">
+							</div>
+						</div>
+						<div class="layui-inline">
+							<label class="layui-form-label">在馆状态</label>
+							<div class="layui-input-inline">
+							    <select name="status">
+							        <option value="">全部</option>
+							        <option value="0">在馆</option>
+							        <option value="1">借出</option>
+							    </select>
+							</div>
+						</div>
+						<div class="layui-inline">
+							<button class="layui-btn" lay-submit lay-filter="search_btn">查询</button>
+							<button class="layui-btn" id="add_btn">添加</button>
+						</div>
+					</div>
+				</div>
+				
+				<table class="layui-hide" id="reader_tb" lay-filter="reader_tb"></table>
+				 
+				<script type="text/html" id="barDemo">
+				  <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a> 
+				  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+				</script>
+			
+			</div>
+		</div>
+		<script type="text/javascript" th:src="@{/js/book.js}"></script>
+	</body>
+	<script type="text/html" id="book_form_tmpl">
+		<form action="" class="layui-form" lay-filter="book-form" style="margin-top: 10px;">
+			<div class="layui-form-item">
+				<label class="layui-form-label">书籍ID</label>
+				<div class="layui-input-inline">
+				  <input type="text" id="bid" name="bookId" autocomplete="off" class="layui-input">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">书名</label>
+				<div class="layui-input-inline">
+				  <input type="text" id="bname" name="bookName" required lay-verify="required" autocomplete="off" class="layui-input">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">ISBN</label>
+				<div class="layui-input-inline">
+				  <input type="text" id="isbn" name="isbn" required lay-verify="required" autocomplete="off" class="layui-input">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">出版社</label>
+				<div class="layui-input-inline">
+				  <input type="text" id="press" name="press" required lay-verify="required" autocomplete="off" class="layui-input">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">作者</label>
+				<div class="layui-input-inline">
+				  <input type="text" id="author" name="author" required lay-verify="required" autocomplete="off" class="layui-input">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">出版日期</label>
+				<div class="layui-input-inline">
+				  <input type="text" id="publicationDate" name="publicationDate" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">价格</label>
+				<div class="layui-input-inline">
+				  <input type="number" min="0" id="price" name="price" autocomplete="off" class="layui-input">
+				</div>
+			</div>
+		</form>
+	</script>
+</html>

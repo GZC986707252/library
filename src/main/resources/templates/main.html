@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head th:replace="_fragment::head(~{::title},~{})">
+		<meta charset="utf-8">
+		<title>图书借阅管理系统</title>
+		<link rel="stylesheet" type="text/css" href="../static/lib/layui/css/layui.css" />
+		<script src="../static/lib/layui/layui.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+	    <div th:replace="_fragment::library-header('main')"></div>
+		<div class="layui-container">
+			<div class="layui-form">
+				<div class="layui-form-item">
+					<div class="layui-inline">
+						<label class="layui-form-label">读者证号</label>
+						<div class="layui-input-inline">
+							<input type="text" id="readerId" name="readerId" autocomplete="off" placeholder="请输入读者证号" class="layui-input">
+						</div>
+					</div>
+					<div class="layui-inline">
+						<button class="layui-btn" id="search_reader">查询读者</button>
+					</div>
+					<div class="layui-inline">
+						<label class="layui-form-label">书籍编号</label>
+						<div class="layui-input-inline">
+							<input type="text" id="bookId" name="bookId" placeholder="请输入书籍编号" autocomplete="off" class="layui-input">
+						</div>
+					</div>
+					<div class="layui-inline">
+						<button class="layui-btn" id="search_book">查询书籍</button>
+						<button class="layui-btn layui-btn-normal" id="borrow_book">借书</button>
+						<button class="layui-btn layui-btn-warm" id="return_book">还书</button>
+						<button class="layui-btn layui-btn-danger" id="handle_fine">处理欠费</button>
+					</div>
+				</div>
+			</div>
+			<div class="layui-row">
+				<div class="layui-col-md6">
+					<fieldset class="layui-elem-field">
+						<legend>读者信息</legend>
+						<div class="layui-field-box" id="reader_info" style="font-size: 17px;">
+						</div>
+					</fieldset>
+				</div>
+				<div class="layui-col-md6">
+					<fieldset class="layui-elem-field">
+						<legend>书籍信息</legend>
+						<div class="layui-field-box" id="book_info" style="font-size: 17px;">
+						</div>
+					</fieldset>
+				</div>
+			</div>
+			<div class="layui-row">
+				<fieldset class="layui-elem-field">
+					<legend align="center">借阅记录</legend>
+					<div class="layui-field-box">
+						<table class="layui-table">
+							<colgroup>
+								<col width="100">
+								<col width="150">
+								<col width="150">
+								<col width="120">
+								<col width="120">
+								<col width="120">
+								<col width="120">
+								<col width="120">
+								<col width="120">
+							</colgroup>
+							<thead>
+								<tr>
+									<th>编号</th>
+									<th>书名</th>
+									<th>ISBN</th>
+									<th>作者</th>
+									<th>出版社</th>
+									<th>出版日期</th>
+									<th>价格</th>
+									<th>借书时间</th>
+									<th>到期时间</th>
+								</tr>
+							</thead>
+							<tbody id="borrow_info">
+							</tbody>
+						</table>
+					</div>
+				</fieldset>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" th:src="@{/js/main.js}"></script>
+	<script type="text/html" id="reader_info_tmpl">
+		<p>读者证号: {{ d.readerId }}</p>
+		<p>读者姓名: {{ d.readerName }}</p>
+		<p>手机号: {{ d.phone }}</p>
+		<p>欠款金额: {{ d.fine }}</p>
+		<p>状态: 
+		{{# if(d.status){  }}
+			停用
+		{{# }else{  }}
+			正常
+		{{# }  }}
+		</p>
+		<p>注册时间: {{ d.createTime }}</p>
+	</script>
+	<script type="text/html" id="book_info_tmpl">
+		<p>书籍编号: {{ d.bookId }}</p>
+		<p>书籍名称: {{ d.bookName }}</p>
+		<p>ISBN: {{ d.isbn }}</p>
+		<p>作者: {{ d.author }}</p>
+		<p>出版社: {{ d.press }}</p>
+		<p>出版日期: {{ d.publicationDate }}</p>
+		<p>价格: {{ d.price }}</p>
+		<p>在馆状态: 
+		{{# if(d.status){  }}
+			已借出
+		{{# }else{  }}
+			在馆
+		{{# }  }}
+		</p>
+		<p>上架时间: {{ d.createTime }}</p>
+	</script>
+	<script type="text/html" id="borrow_info_tmpl">
+		<tr>
+			<td>{{ d.bookId }}</td>
+			<td>{{ d.bookName }}</td>
+			<td>{{ d.isbn }}</td>
+			<td>{{ d.author }}</td>
+			<td>{{ d.press }}</td>
+			<td>{{ d.publicationDate }}</td>
+			<td>{{ d.price }}</td>
+			<td>{{ d.borrowTime }}</td>
+			<td>{{ d.expireTime }}</td>
+		</tr>
+	</script>
+
+</html>

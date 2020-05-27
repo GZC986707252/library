@@ -1,0 +1,31 @@
+body{
+	padding: 0;
+	margin: 0;
+}
+
+.header{
+	background-color: #555;
+	height: 60px;
+	line-height: 60px;
+}
+.logo{
+	color: white;
+	font-size: large;
+	font-weight: bold;
+	font-family: sans-serif;
+}
+.nav-left{
+	float: left;
+}
+.nav-right{
+	float: right;
+}
+.nav-right span{
+	color: white;
+	font-size: medium;
+	font-style: oblique;
+	margin: 0px 10px;
+}
+.menu{
+	margin: 10px 0px;
+}

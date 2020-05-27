@@ -1,17 +1,15 @@
 package edu.hut.keshe.library.dao;
 
 import edu.hut.keshe.library.pojo.Admin;
+import org.apache.ibatis.annotations.Param;
 
 public interface AdminMapper {
-    int deleteByPrimaryKey(Integer adminId);
+    int deleteById(Integer adminId);
 
     int insert(Admin record);
 
-    int insertSelective(Admin record);
+    Admin selectByName(@Param("adminName") String adminName);
 
-    Admin selectByPrimaryKey(Integer adminId);
+    int updateById(Admin record);
 
-    int updateByPrimaryKeySelective(Admin record);
-
-    int updateByPrimaryKey(Admin record);
 }

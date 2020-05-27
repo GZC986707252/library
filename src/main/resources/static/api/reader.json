@@ -1,0 +1,41 @@
+{
+	"code":0,
+	"msg":"success",
+	"count":5,
+	"data":[{
+		"readerId":20201524,
+		"readerName":"张三",
+		"phone":"1212453165",
+		"status":false,
+		"fine": 26.20,
+		"createTime": "2020-10-12" 
+	},{
+		"readerId":2020144524,
+		"readerName":"张三",
+		"phone":"1212453165",
+		"status":false,
+		"fine":26.20,
+		"createTime":"2020-10-12"
+	},{
+		"readerId":202051524,
+		"readerName":"张三",
+		"phone":"12124553165",
+		"status":false,
+		"fine":26.20,
+		"createTime":"2020-10-12"
+	},{
+		"readerId":202401524,
+		"readerName":"张三",
+		"phone":"1212453165",
+		"status":false,
+		"fine":26.20,
+		"createTime":"2020-10-12"
+	},{
+		"readerId":202015524,
+		"readerName":"张三",
+		"phone":"1212453165",
+		"status":false,
+		"fine":26.20,
+		"createTime":"2020-10-12"
+	}]
+}

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head th:fragment="head(title,style)">
+		<meta charset="utf-8">
+		<title th:replace="${title}">图书借阅管理系统</title>
+		<link rel="stylesheet" type="text/css" th:href="@{/css/public.css}"/>
+		<link rel="stylesheet" type="text/css" th:href="@{/lib/layui/css/layui.css}"/>
+		<script th:src="@{/lib/layui/layui.js}" type="text/javascript" charset="utf-8"></script>
+		<style th:replace="${style}"></style>
+	</head>
+	<body>
+		<div class="library-header" th:fragment="library-header(pageName)">
+			<div class="header">
+				<div class="layui-container">  
+					 <div class="logo nav-left">
+						图书借阅管理系统
+					 </div>
+					 <div class="nav-right">
+						<span th:if="${session.admin!=null}">[[${session.admin.adminName}]]</span>
+						<a th:href="@{/logout}" class="layui-btn layui-btn-sm">退出</a>
+					 </div>
+				</div>
+			</div>
+			<div class="menu">
+				<div class="layui-container">
+					<div class="layui-btn-container">
+					  <a th:href="@{/reader_list}" class="layui-btn" th:classappend="${pageName=='reader'?'layui-btn-normal':''}">读者管理</a>
+					  <a th:href="@{/book_list}" class="layui-btn" th:classappend="${pageName=='book'?'layui-btn-normal':''}">书籍管理</a>
+					  <a th:href="@{/main}" class="layui-btn" th:classappend="${pageName=='main'?'layui-btn-normal':''}">借阅/还书/缴费</a>
+					  <!--<a th:href="@{/main}" class="layui-btn" th:classappend="${pageName=='return'?'layui-btn-normal':''}">还书处理</a>
+					  <a th:href="@{/main}" class="layui-btn" th:classappend="${pageName=='fine'?'layui-btn-normal':''}">缴纳欠费</a>-->
+					</div>
+					<hr />
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

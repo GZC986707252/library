@@ -1,0 +1,12 @@
+{
+	"code":0,
+	"msg":"success",
+	"data":{
+		"readerId":20201524,
+		"readerName":"张三",
+		"phone":"1212453165",
+		"status":false,
+		"fine": 26.20,
+		"createTime": "2020-10-12" 
+	}
+}
