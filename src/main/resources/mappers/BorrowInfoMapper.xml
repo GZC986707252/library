@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="edu.hut.keshe.library.dao.BorrowInfoMapper">
-  <resultMap id="BaseResultMap" type="edu.hut.keshe.library.pojo.BorrowInfo">
+<mapper namespace="edu.hut.library.dao.BorrowInfoMapper">
+  <resultMap id="BaseResultMap" type="edu.hut.library.pojo.BorrowInfo">
     <id column="borrow_id" jdbcType="INTEGER" property="borrowId" />
     <result column="reader_id" jdbcType="BIGINT" property="readerId" />
     <result column="book_id" jdbcType="INTEGER" property="bookId" />
@@ -21,13 +21,13 @@
     delete from borrow_info
     where borrow_id = #{borrowId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="edu.hut.keshe.library.pojo.BorrowInfo">
+  <insert id="insert" parameterType="edu.hut.library.pojo.BorrowInfo">
     insert into borrow_info (borrow_id, reader_id, book_id, 
       borrow_time, expire_time)
     values (#{borrowId,jdbcType=INTEGER}, #{readerId,jdbcType=BIGINT}, #{bookId,jdbcType=INTEGER}, 
       #{borrowTime,jdbcType=TIMESTAMP}, #{expireTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="edu.hut.keshe.library.pojo.BorrowInfo">
+  <insert id="insertSelective" parameterType="edu.hut.library.pojo.BorrowInfo">
     insert into borrow_info
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="borrowId != null">
@@ -64,7 +64,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="edu.hut.keshe.library.pojo.BorrowInfo">
+  <update id="updateByPrimaryKeySelective" parameterType="edu.hut.library.pojo.BorrowInfo">
     update borrow_info
     <set>
       <if test="readerId != null">
@@ -82,7 +82,7 @@
     </set>
     where borrow_id = #{borrowId,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="edu.hut.keshe.library.pojo.BorrowInfo">
+  <update id="updateByPrimaryKey" parameterType="edu.hut.library.pojo.BorrowInfo">
     update borrow_info
     set reader_id = #{readerId,jdbcType=BIGINT},
       book_id = #{bookId,jdbcType=INTEGER},

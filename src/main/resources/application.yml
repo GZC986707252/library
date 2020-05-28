@@ -18,16 +18,17 @@ spring:
       restart:
         enabled: true
 
-    http:
-      encoding:
-        charset: UTF-8
-        enabled: true
-        force: true
-      jackson:
-        date-format: yyyy-MM-dd
-        time-zone: GMT+8
 
-
+  http:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+    jackson:
+      date-format: yyyy-MM-dd
+      time-zone: GMT+8
+  mvc:
+    date-format: yyyy-MM-dd
 #指定mapper文件的位置
 mybatis:
   mapper-locations: classpath:mappers/*.xml
@@ -38,8 +39,7 @@ logging:
   level:
     edu:
       hut:
-        keshe:
-          library:
-            dao: debug
+        library:
+          dao: debug
     root: info
 

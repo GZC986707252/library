@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="edu.hut.keshe.library.dao.ReturnInfoMapper">
-  <resultMap id="BaseResultMap" type="edu.hut.keshe.library.pojo.ReturnInfo">
+<mapper namespace="edu.hut.library.dao.ReturnInfoMapper">
+  <resultMap id="BaseResultMap" type="edu.hut.library.pojo.ReturnInfo">
     <id column="r_id" jdbcType="INTEGER" property="rId" />
     <result column="reader_id" jdbcType="BIGINT" property="readerId" />
     <result column="book_id" jdbcType="INTEGER" property="bookId" />
@@ -21,13 +21,13 @@
     delete from return_info
     where r_id = #{rId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="edu.hut.keshe.library.pojo.ReturnInfo">
+  <insert id="insert" parameterType="edu.hut.library.pojo.ReturnInfo">
     insert into return_info (r_id, reader_id, book_id, 
       borrow_time, return_time)
     values (#{rId,jdbcType=INTEGER}, #{readerId,jdbcType=BIGINT}, #{bookId,jdbcType=INTEGER}, 
       #{borrowTime,jdbcType=TIMESTAMP}, #{returnTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="edu.hut.keshe.library.pojo.ReturnInfo">
+  <insert id="insertSelective" parameterType="edu.hut.library.pojo.ReturnInfo">
     insert into return_info
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="rId != null">
@@ -64,7 +64,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="edu.hut.keshe.library.pojo.ReturnInfo">
+  <update id="updateByPrimaryKeySelective" parameterType="edu.hut.library.pojo.ReturnInfo">
     update return_info
     <set>
       <if test="readerId != null">
@@ -82,7 +82,7 @@
     </set>
     where r_id = #{rId,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="edu.hut.keshe.library.pojo.ReturnInfo">
+  <update id="updateByPrimaryKey" parameterType="edu.hut.library.pojo.ReturnInfo">
     update return_info
     set reader_id = #{readerId,jdbcType=BIGINT},
       book_id = #{bookId,jdbcType=INTEGER},

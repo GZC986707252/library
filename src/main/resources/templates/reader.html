@@ -12,35 +12,29 @@
 			<div class="layui-form">
 				<div class="layui-form-item">
 					<div class="layui-inline">
-						<label class="layui-form-label">搜索读者</label>
+						<label class="layui-form-label">读者证号</label>
 						<div class="layui-input-inline">
-						  <input type="text" id="readerId" placeholder="搜索读者证号" autocomplete="off" class="layui-input">
+						  <input type="text" id="readerId" name="readerId" placeholder="请输入读者证号" autocomplete="off" class="layui-input">
 						</div>
 					</div>
 					<div class="layui-inline">
-					  <button class="layui-btn" id="search-btn">查询</button>
-					</div>
-				</div>
-			</div>
-			<form action="" class="layui-form">
-				<div class="layui-form-item">
-					<div class="layui-inline">
 						<label class="layui-form-label">读者姓名</label>
 						<div class="layui-input-inline">
-						  <input type="text" id="readerName" name="readerName" required  lay-verify="required" placeholder="请输入姓名" autocomplete="off" class="layui-input">
+							<input type="text" id="readerName" name="readerName" placeholder="请输入姓名" autocomplete="off" class="layui-input">
 						</div>
 					</div>
 					<div class="layui-inline">
 						<label class="layui-form-label">手机号</label>
 						<div class="layui-input-inline">
-						  <input type="text" name="phone" required  lay-verify="required|phone|number" placeholder="请输入手机号" autocomplete="off" class="layui-input">
+							<input type="text" id="phone" name="phone"  placeholder="请输入手机号" autocomplete="off" class="layui-input">
 						</div>
 					</div>
 					<div class="layui-inline">
-					  <button class="layui-btn" lay-submit lay-filter="add_btn">添加</button>
+						<button class="layui-btn" id="search-btn" lay-submit lay-filter="search_btn">查询</button>
+						<button class="layui-btn" id="add_btn">添加</button>
 					</div>
 				</div>
-			</form>
+			</div>
 			
 			<table class="layui-hide" id="reader_tb" lay-filter="reader_tb"></table>
 			 

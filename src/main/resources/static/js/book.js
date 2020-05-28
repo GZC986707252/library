@@ -4,9 +4,9 @@ layui.use(['table', 'form', 'jquery', 'layer'], function() {
 		layer = layui.layer,
 		form = layui.form;
 
-	table.render({
-		elem: '#reader_tb',
-		url: '../static/api/book.json',
+	var book_tb=table.render({
+		elem: '#book_tb',
+		url: '/book/list',
 		cols: [
 			[{
 				field: 'bookId',
@@ -59,68 +59,101 @@ layui.use(['table', 'form', 'jquery', 'layer'], function() {
 				width: 150
 			}]
 		],
-		page: true
+		page: true,
+		height:500
 	});
 
 
 	//监听行工具事件
-	table.on('tool(reader_tb)', function(obj) {
+	table.on('tool(book_tb)', function(obj) {
 		var data = obj.data;
-		//console.log(obj)
 		if (obj.event === 'del') {
 			layer.confirm('真的删除行么', function(index) {
-				obj.del();
+				$.ajax({
+					url:'/book/list/'+data.bookId,
+					type:'delete',
+					dataType:'json',
+					success: function (res) {
+						if (res.code != 0) {
+							return layer.msg(res.msg,{icon:2});
+						}
+						return layer.msg("删除成功！", {icon: 1, time: 1300}, function () {
+							obj.del();
+						});
+					}
+				});
 				layer.close(index);
 			});
 		} else if (obj.event === 'edit') {
-			add_update("/test_update","put",data,"编辑书籍");
-			obj.update({
-				email: value
+			layer.open({
+				type:1,
+				title: '编辑书籍',
+				content:$("#book_form_tmpl").html(),
+				area: ['400px', '490px'],
+				btn:['更新'],
+				yes:function(index1){
+					let bookId = $("#bookId").val(),
+						bookName = $("#bookName").val(),
+						isbn = $("#isbn").val(),
+						press = $("#press").val(),
+						author = $("#author").val(),
+						publicationDate = $("#publicationDate").val(),
+						price = $("#price").val();
+					/*if(bookName.length==0 || isbn.length==0){
+						return layer.msg("书名或ISBN不能为空!",{icon:2});
+					}*/
+					let new_data = {
+						'bookName': bookName,
+						'isbn': isbn,
+						'press': press,
+						'author': author,
+						'publicationDate': publicationDate,
+						'price': price
+					};
+					console.log(bookId);
+					$.ajax({
+						url:'/book/list/'+bookId,
+						type:'PUT',
+						data: JSON.stringify(new_data),
+						contentType:'application/json',
+						dataType: 'json',
+						success:function (res) {
+							if(res.code!=0){
+								return layer.msg(res.msg, {icon: 2});
+							}
+							return layer.msg("更新成功",{icon:1,time:1300},function () {
+								obj.update(new_data);
+								layer.close(index1);
+							});
+						}
+					});
+				},
+				success:function(){
+					//填充表单（编辑状态）
+					form.val("book-form",data);
+					form.render(null,"book-form");
+					$("#bid").attr("disabled",true);
+				}
 			});
-			layer.close(index);
 		}
-	});
-
-
-	//搜索
-	form.on('submit(search_btn)', function(data) {
-		layer.msg(JSON.stringify(data.field));
-		return false;
 	});
 
 	//点击添加按钮事件
 	$("#add_btn").click(function(){
-		add_update("/test_add","post",null,"添加书籍");
-	});
-
-
-	/**
-	 * 添加或者更新弹窗
-	 * @param {Object} url  请求地址
-	 * @param {Object} method  请求方法
-	 * @param {Object} data  发送数据
-	 * @param {Object} title  弹窗标题
-	 */
-	function add_update(url,method,data,title){
 		layer.open({
 			type:1,
-			title: title,
+			title: '添加书籍',
 			content:$("#book_form_tmpl").html(),
 			area: ['400px', '490px'],
-			btn:['提交'],
+			btn:['添加'],
 			yes:function(index){
-				var bookId=$("#bookId").val(),
-					bookName=$("#bname").val(),
+				let bookName=$("#bookName").val(),
 					isbn=$("#isbn").val(),
 					press=$("#press").val(),
 					author=$("#author").val(),
 					publicationDate=$("#publicationDate").val(),
 					price=$("#price").val();
-				if(bookName.length==0 || isbn.length==0){
-					return layer.msg("书名或ISBN不能为空!",{icon:2});
-				}
-				var data={
-					'bookId':bookId,
+				let data={
 					'bookName':bookName,
 					'isbn':isbn,
 					'press':press,
@@ -128,20 +161,45 @@ layui.use(['table', 'form', 'jquery', 'layer'], function() {
 					'publicationDate':publicationDate,
 					'price':price
 				}
-				layer.alert(JSON.stringify(data)+"\n"+url+":"+method);
-				layer.close(index);
+				$.ajax({
+					url:'/book/list',
+					type:'post',
+					data: JSON.stringify(data),
+					contentType: 'application/json',
+					dataType:'json',
+					success:function (res) {
+						if(res.code!=0){
+							return layer.msg(res.msg,{icon:2});
+						}
+						return layer.msg("添加成功",{icon:1,time:1300},function () {
+							layer.close(index);
+						})
+					}
+				});
 			},
 			success:function(){
-				if(data!=null){
-					//填充表单（编辑状态）
-					form.val("book-form",data);
-					form.render(null,"book-form");
-					$("#bid").attr("disabled",true);
-				}else{
-					$("#bid").val("不需要填写").attr("disabled",true);
-				}
+				$("#bid").val("不需要填写").attr("disabled",true);
 			}
 		});
-	}
+	});
+
+	//搜索
+	var book_tb_this;
+	form.on('submit(search_btn)', function(data) {
+		if (book_tb_this != null) {
+			book_tb_this.where={};
+		}
+		book_tb.reload({
+			url:'/book/search',
+			where:data.field,
+			page:{
+				curr:1
+			},
+			done:function () {
+				book_tb_this = this;
+			}
+		});
+		return false;
+	});
 
 });

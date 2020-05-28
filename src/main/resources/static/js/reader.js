@@ -4,9 +4,9 @@ layui.use(['table', 'form', 'jquery', 'layer'], function() {
 		layer = layui.layer,
 		form = layui.form;
 
-	table.render({
+	var reader_tb=table.render({
 		elem: '#reader_tb',
-		url: '../static/api/reader.json',
+		url: '/reader/list',
 		cols: [
 			[{
 				field: 'readerId',
@@ -47,9 +47,9 @@ layui.use(['table', 'form', 'jquery', 'layer'], function() {
 				width: 150
 			}]
 		],
-		page: true
+		page: true,
+		height: 500
 	});
-
 
 	//监听行工具事件
 	table.on('tool(reader_tb)', function(obj) {
@@ -57,7 +57,19 @@ layui.use(['table', 'form', 'jquery', 'layer'], function() {
 		//console.log(obj)
 		if (obj.event === 'del') {
 			layer.confirm('真的删除行么', function(index) {
-				obj.del();
+				$.ajax({
+					url:'/reader/list/'+data.readerId,
+					type:'delete',
+					dataType:'json',
+					success: function (res) {
+						if(res.code!=0){
+							return layer.msg("删除失败！",{icon:2});
+						}
+						return layer.msg("删除成功！",{icon:1,time:1300},function () {
+							obj.del();
+						});
+					}
+				})
 				layer.close(index);
 			});
 		} else if (obj.event === 'edit') {
@@ -73,19 +85,54 @@ layui.use(['table', 'form', 'jquery', 'layer'], function() {
 		}
 	});
 
-	//搜索
-	$("#search-btn").click(function() {
-		var data = {
-			'readerId': $("#readerId").val()
+	/**
+	 * 	搜索
+	 */
+	var reader_tb_this;
+	form.on('submit(search_btn)',function (data) {
+		// console.log(data.field);
+		//给表格添加搜索接口，添加额外参数
+		if(reader_tb_this!=null){
+			//必须置空，否则因为缓存导致上一次请求的参数遗留下来
+			reader_tb_this.where={};
 		}
-		layer.msg(JSON.stringify(data));
+		reader_tb.reload({
+			url:"/reader/search",
+			where:data.field,
+			done:function () {
+				reader_tb_this=this;   //拿到实例对象，从未清空where的参数缓存
+			}
+		});
 	});
 
-	//添加读者
-	form.on('submit(add_btn)', function(data) {
-		layer.msg(JSON.stringify(data.field));
-		return false;
+	/**
+	 * 添加
+	 */
+	$("#add_btn").click(function () {
+		let readerName= $("#readerName").val(),
+			phone= $("#phone").val();
+		if ( readerName.length==0 || phone.length==0) {
+			return layer.msg("姓名或手机号不能为空！",{icon:2});
+		}
+		let data={
+			readerName:readerName,
+			phone:phone
+		}
+		$.ajax({
+			url:'/reader/list',
+			type:'post',
+			data:JSON.stringify(data),
+			contentType:'application/json',
+			dataType: 'json',
+			success:function (res) {
+				if(res.code!=0){
+					return layer.msg(res.msg,{icon: 2});
+				}
+				return layer.msg("添加成功！", {icon: 1, time: 1300}, function () {
+					reader_tb.reload();
+				});
+			}
+		});
 	});
-
 
 });

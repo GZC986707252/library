@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="edu.hut.keshe.library.dao.BookMapper">
-  <resultMap id="BaseResultMap" type="edu.hut.keshe.library.pojo.Book">
+<mapper namespace="edu.hut.library.dao.BookMapper">
+  <resultMap id="BaseResultMap" type="edu.hut.library.pojo.Book">
     <id column="book_id" jdbcType="INTEGER" property="bookId" />
     <result column="book_name" jdbcType="VARCHAR" property="bookName" />
     <result column="isbn" jdbcType="VARCHAR" property="isbn" />
@@ -15,27 +15,17 @@
   <sql id="Base_Column_List">
     book_id, book_name, isbn, author, press, publication_date, price, status, create_time
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectBookById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from book_info
     where book_id = #{bookId,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteBookById" parameterType="java.lang.Integer">
     delete from book_info
     where book_id = #{bookId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="edu.hut.keshe.library.pojo.Book">
-    insert into book_info (book_id, book_name, isbn, 
-      author, press, publication_date, 
-      price, status, create_time
-      )
-    values (#{bookId,jdbcType=INTEGER}, #{bookName,jdbcType=VARCHAR}, #{isbn,jdbcType=VARCHAR}, 
-      #{author,jdbcType=VARCHAR}, #{press,jdbcType=VARCHAR}, #{publicationDate,jdbcType=TIMESTAMP}, 
-      #{price,jdbcType=DECIMAL}, #{status,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}
-      )
-  </insert>
-  <insert id="insertSelective" parameterType="edu.hut.keshe.library.pojo.Book">
+  <insert id="insert" parameterType="edu.hut.library.pojo.Book">
     insert into book_info
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="bookId != null">
@@ -96,7 +86,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="edu.hut.keshe.library.pojo.Book">
+  <update id="updateBookById" parameterType="edu.hut.library.pojo.Book">
     update book_info
     <set>
       <if test="bookName != null">
@@ -126,16 +116,35 @@
     </set>
     where book_id = #{bookId,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="edu.hut.keshe.library.pojo.Book">
-    update book_info
-    set book_name = #{bookName,jdbcType=VARCHAR},
-      isbn = #{isbn,jdbcType=VARCHAR},
-      author = #{author,jdbcType=VARCHAR},
-      press = #{press,jdbcType=VARCHAR},
-      publication_date = #{publicationDate,jdbcType=TIMESTAMP},
-      price = #{price,jdbcType=DECIMAL},
-      status = #{status,jdbcType=BIT},
-      create_time = #{createTime,jdbcType=TIMESTAMP}
-    where book_id = #{bookId,jdbcType=INTEGER}
-  </update>
+  <select id="selectBooksByBookParam" parameterType="edu.hut.library.param.BookParam" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from book_info
+    <where>
+      <if test="bookId != null">
+        and  book_id = #{bookId,jdbcType=INTEGER}
+      </if>
+      <if test="bookName != null">
+        and book_name like concat('%',#{bookName,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="isbn != null">
+        and  isbn = #{isbn,jdbcType=VARCHAR}
+      </if>
+      <if test="author != null">
+        and author like concat('%',#{author,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="press != null">
+        and  press like concat('%',#{press,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="status != null">
+        and status = #{status,jdbcType=BIT}
+      </if>
+    </where>
+    <if test="page!=null and limit !=null">
+      limit ${limit*(page-1)},#{limit}
+    </if>
+  </select>
+  <select id="selectCount" resultType="java.lang.Integer">
+    select count(*) from book_info
+  </select>
 </mapper>
