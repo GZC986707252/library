@@ -1,5 +1,7 @@
 package edu.hut.library.config;
 
+import edu.hut.library.interceptor.DeleteMethodInterceptor;
+import edu.hut.library.interceptor.LoginInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -14,9 +16,13 @@ public class InterceptorConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         //注册拦截器
-        /*registry.addInterceptor(new LoginInterceptor())
+        registry.addInterceptor(new LoginInterceptor())
                 .addPathPatterns("/**")
-                .excludePathPatterns(new String[]{"/login","/logout"});*/
+                .excludePathPatterns(new String[]{"/login","/logout","/login.do"});
+
+        registry.addInterceptor(new DeleteMethodInterceptor())
+                .addPathPatterns("/book/**")
+                .addPathPatterns("/reader/**");
     }
 
 }

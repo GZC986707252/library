@@ -68,16 +68,16 @@ layui.use(['table', 'form', 'jquery', 'layer'], function() {
 	table.on('tool(book_tb)', function(obj) {
 		var data = obj.data;
 		if (obj.event === 'del') {
-			layer.confirm('真的删除行么', function(index) {
+			layer.confirm('真的删除行么',{icon:3},function(index) {
 				$.ajax({
 					url:'/book/list/'+data.bookId,
 					type:'delete',
 					dataType:'json',
 					success: function (res) {
 						if (res.code != 0) {
-							return layer.msg(res.msg,{icon:2});
+							return layer.msg("删除失败："+res.msg,{icon:2});
 						}
-						return layer.msg("删除成功！", {icon: 1, time: 1300}, function () {
+						return layer.msg("删除成功", {icon: 1, time: 1300}, function () {
 							obj.del();
 						});
 					}
@@ -132,7 +132,7 @@ layui.use(['table', 'form', 'jquery', 'layer'], function() {
 					//填充表单（编辑状态）
 					form.val("book-form",data);
 					form.render(null,"book-form");
-					$("#bid").attr("disabled",true);
+					$("#bookId").attr("disabled",true);
 				}
 			});
 		}
@@ -178,7 +178,7 @@ layui.use(['table', 'form', 'jquery', 'layer'], function() {
 				});
 			},
 			success:function(){
-				$("#bid").val("不需要填写").attr("disabled",true);
+				$("#bookId").val("不需要填写").attr("disabled",true);
 			}
 		});
 	});

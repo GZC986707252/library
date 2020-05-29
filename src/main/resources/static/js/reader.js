@@ -56,16 +56,16 @@ layui.use(['table', 'form', 'jquery', 'layer'], function() {
 		var data = obj.data;
 		//console.log(obj)
 		if (obj.event === 'del') {
-			layer.confirm('真的删除行么', function(index) {
+			layer.confirm('真的删除行么',{icon:3}, function(index) {
 				$.ajax({
 					url:'/reader/list/'+data.readerId,
 					type:'delete',
 					dataType:'json',
 					success: function (res) {
 						if(res.code!=0){
-							return layer.msg("删除失败！",{icon:2});
+							return layer.msg("删除失败："+res.msg,{icon:2});
 						}
-						return layer.msg("删除成功！",{icon:1,time:1300},function () {
+						return layer.msg("删除成功",{icon:1,time:1300},function () {
 							obj.del();
 						});
 					}
@@ -128,7 +128,9 @@ layui.use(['table', 'form', 'jquery', 'layer'], function() {
 				if(res.code!=0){
 					return layer.msg(res.msg,{icon: 2});
 				}
-				return layer.msg("添加成功！", {icon: 1, time: 1300}, function () {
+				return layer.msg("添加成功", {icon: 1, time: 1300}, function () {
+					$("#readerName").val("");
+					$("#phone").val("");
 					reader_tb.reload();
 				});
 			}

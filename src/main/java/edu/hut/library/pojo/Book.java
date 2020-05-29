@@ -26,7 +26,6 @@ public class Book {
     @NotBlank(message = "出版社不能为空")
     private String press;
 
-    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Past(message = "出版日期不能在当前时间之后")
     private Date publicationDate;
@@ -36,7 +35,6 @@ public class Book {
 
     private Boolean status;
 
-    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
     private Date createTime;
 
     public Integer getBookId() {

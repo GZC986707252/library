@@ -23,7 +23,6 @@ public class Reader {
 
     private BigDecimal fine;
 
-    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
     private Date createTime;
 
     public Long getReaderId() {

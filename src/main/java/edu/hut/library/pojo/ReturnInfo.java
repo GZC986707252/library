@@ -11,10 +11,8 @@ public class ReturnInfo{
 
     private Integer bookId;
 
-    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
     private Date borrowTime;
 
-    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
     private Date returnTime;
 
     private Book bookInfo;

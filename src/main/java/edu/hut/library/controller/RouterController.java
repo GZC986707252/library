@@ -1,5 +1,6 @@
 package edu.hut.library.controller;
 
+import edu.hut.library.annotation.ViewMethod;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,18 +13,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class RouterController {
 
+    @ViewMethod
     @GetMapping("/reader_list")
     public String readerPage(){
         return "reader";
     }
+
+    @ViewMethod
     @GetMapping("/book_list")
     public String bookPage(){
         return "book";
     }
+
     @GetMapping("/login")
     public String loginPage(){
         return "login";
     }
+
+    @ViewMethod
     @GetMapping({"/main","/"})
     public String mainPage(){
         return "main";
