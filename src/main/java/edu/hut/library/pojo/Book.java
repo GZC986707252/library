@@ -36,6 +36,7 @@ public class Book {
 
     private Boolean status;
 
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
     private Date createTime;
 
     public Integer getBookId() {

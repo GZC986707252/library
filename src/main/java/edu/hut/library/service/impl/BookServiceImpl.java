@@ -42,7 +42,7 @@ public class BookServiceImpl implements BookService {
     public Book findBookById(Integer bookId) {
         Book book = bookMapper.selectBookById(bookId);
         if (book == null) {
-            throw new CustomizeException(ResultCode.RECORD_NOT_FOUND);
+            throw new CustomizeException(ResultCode.RECORD_NOT_FOUND,"查询不到该书籍");
         }
         return book;
     }

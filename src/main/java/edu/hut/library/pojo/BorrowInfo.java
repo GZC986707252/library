@@ -1,17 +1,30 @@
 package edu.hut.library.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
-public class BorrowInfo {
+public class BorrowInfo{
     private Integer borrowId;
 
     private Long readerId;
 
     private Integer bookId;
 
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
     private Date borrowTime;
 
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
     private Date expireTime;
+    private Book bookInfo;
+
+    public Book getBookInfo() {
+        return bookInfo;
+    }
+
+    public void setBookInfo(Book bookInfo) {
+        this.bookInfo = bookInfo;
+    }
 
     public Integer getBorrowId() {
         return borrowId;

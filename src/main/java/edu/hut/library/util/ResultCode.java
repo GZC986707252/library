@@ -14,7 +14,7 @@ public enum ResultCode {
     PASSWORD_ERROR(1003,"密码错误"),
     RECORD_NOT_FOUND(1004,"暂时查询不到记录"),
     ARGUMENT_NOT_VALID(1005,"参数校验错误"),
-    UNKNOWN_ERROR(-1,"未知错误");
+    UNKNOWN_ERROR(-1,"出错啦,请检查输入是否合法");
     private int code;
     private String msg;
 

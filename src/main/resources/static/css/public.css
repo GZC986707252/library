@@ -29,3 +29,6 @@ body{
 .menu{
 	margin: 10px 0px;
 }
+.selected-color{
+	background-color: #5fb878 !important;
+}

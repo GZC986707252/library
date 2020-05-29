@@ -7,87 +7,28 @@
     <result column="book_id" jdbcType="INTEGER" property="bookId" />
     <result column="borrow_time" jdbcType="TIMESTAMP" property="borrowTime" />
     <result column="return_time" jdbcType="TIMESTAMP" property="returnTime" />
+    <association property="bookInfo" column="book_id" javaType="edu.hut.library.pojo.Book" select="edu.hut.library.dao.BookMapper.selectBookById"/>
   </resultMap>
   <sql id="Base_Column_List">
     r_id, reader_id, book_id, borrow_time, return_time
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectReturnRecords" parameterType="java.lang.Number" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from return_info
-    where r_id = #{rId,jdbcType=INTEGER}
+    <where>
+      <if test="readerId != null">
+        reader_id = #{readerId,jdbcType=BIGINT}
+      </if>
+      <if test="bookId != null">
+        and book_id = #{bookId,jdbcType=INTEGER}
+      </if>
+    </where>
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from return_info
-    where r_id = #{rId,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="edu.hut.library.pojo.ReturnInfo">
-    insert into return_info (r_id, reader_id, book_id, 
+  <insert id="insertReturnRecord" parameterType="edu.hut.library.pojo.ReturnInfo">
+    insert into return_info (reader_id, book_id,
       borrow_time, return_time)
-    values (#{rId,jdbcType=INTEGER}, #{readerId,jdbcType=BIGINT}, #{bookId,jdbcType=INTEGER}, 
+    values (#{readerId,jdbcType=BIGINT}, #{bookId,jdbcType=INTEGER},
       #{borrowTime,jdbcType=TIMESTAMP}, #{returnTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="edu.hut.library.pojo.ReturnInfo">
-    insert into return_info
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="rId != null">
-        r_id,
-      </if>
-      <if test="readerId != null">
-        reader_id,
-      </if>
-      <if test="bookId != null">
-        book_id,
-      </if>
-      <if test="borrowTime != null">
-        borrow_time,
-      </if>
-      <if test="returnTime != null">
-        return_time,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="rId != null">
-        #{rId,jdbcType=INTEGER},
-      </if>
-      <if test="readerId != null">
-        #{readerId,jdbcType=BIGINT},
-      </if>
-      <if test="bookId != null">
-        #{bookId,jdbcType=INTEGER},
-      </if>
-      <if test="borrowTime != null">
-        #{borrowTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="returnTime != null">
-        #{returnTime,jdbcType=TIMESTAMP},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="edu.hut.library.pojo.ReturnInfo">
-    update return_info
-    <set>
-      <if test="readerId != null">
-        reader_id = #{readerId,jdbcType=BIGINT},
-      </if>
-      <if test="bookId != null">
-        book_id = #{bookId,jdbcType=INTEGER},
-      </if>
-      <if test="borrowTime != null">
-        borrow_time = #{borrowTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="returnTime != null">
-        return_time = #{returnTime,jdbcType=TIMESTAMP},
-      </if>
-    </set>
-    where r_id = #{rId,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="edu.hut.library.pojo.ReturnInfo">
-    update return_info
-    set reader_id = #{readerId,jdbcType=BIGINT},
-      book_id = #{bookId,jdbcType=INTEGER},
-      borrow_time = #{borrowTime,jdbcType=TIMESTAMP},
-      return_time = #{returnTime,jdbcType=TIMESTAMP}
-    where r_id = #{rId,jdbcType=INTEGER}
-  </update>
 </mapper>

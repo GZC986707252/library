@@ -24,11 +24,9 @@
 			<div class="menu">
 				<div class="layui-container">
 					<div class="layui-btn-container">
-					  <a th:href="@{/reader_list}" class="layui-btn" th:classappend="${pageName=='reader'?'layui-btn-normal':''}">读者管理</a>
-					  <a th:href="@{/book_list}" class="layui-btn" th:classappend="${pageName=='book'?'layui-btn-normal':''}">书籍管理</a>
-					  <a th:href="@{/main}" class="layui-btn" th:classappend="${pageName=='main'?'layui-btn-normal':''}">借阅/还书/缴费</a>
-					  <!--<a th:href="@{/main}" class="layui-btn" th:classappend="${pageName=='return'?'layui-btn-normal':''}">还书处理</a>
-					  <a th:href="@{/main}" class="layui-btn" th:classappend="${pageName=='fine'?'layui-btn-normal':''}">缴纳欠费</a>-->
+					  <a th:href="@{/reader_list}" class="layui-btn" th:classappend="${pageName=='reader'?'selected-color':''}">读者管理</a>
+					  <a th:href="@{/book_list}" class="layui-btn" th:classappend="${pageName=='book'?'selected-color':''}">书籍管理</a>
+					  <a th:href="@{/main}" class="layui-btn" th:classappend="${pageName=='main'?'selected-color':''}">借阅/还书</a>
 					</div>
 					<hr />
 				</div>

@@ -2,16 +2,12 @@ package edu.hut.library.dao;
 
 import edu.hut.library.pojo.ReturnInfo;
 
+import java.util.List;
+
 public interface ReturnInfoMapper {
-    int deleteByPrimaryKey(Integer rId);
 
-    int insert(ReturnInfo record);
+    int insertReturnRecord(ReturnInfo record);
 
-    int insertSelective(ReturnInfo record);
+    List<ReturnInfo> selectReturnRecords(Long readerId, Integer bookId);
 
-    ReturnInfo selectByPrimaryKey(Integer rId);
-
-    int updateByPrimaryKeySelective(ReturnInfo record);
-
-    int updateByPrimaryKey(ReturnInfo record);
 }

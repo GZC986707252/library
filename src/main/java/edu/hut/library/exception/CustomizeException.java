@@ -20,6 +20,15 @@ public class CustomizeException extends RuntimeException{
         this(resultCode.getCode(), resultCode.getMsg());
     }
 
+    /**
+     * 自定义消息
+     * @param resultCode
+     * @param msg  自定义消息
+     */
+    public CustomizeException(ResultCode resultCode, String msg) {
+        this(resultCode.getCode(), msg);
+    }
+
     public int getCode() {
         return code;
     }

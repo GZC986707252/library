@@ -1,9 +1,12 @@
 package edu.hut.library.service.impl;
 
 import edu.hut.library.dao.ReaderMapper;
+import edu.hut.library.exception.CustomizeException;
 import edu.hut.library.param.ReaderParam;
 import edu.hut.library.pojo.Reader;
 import edu.hut.library.service.ReaderService;
+import edu.hut.library.util.ResultCode;
+import edu.hut.library.util.ResultVO;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -49,6 +52,11 @@ public class ReaderServiceImpl implements ReaderService {
 
     @Override
     public Reader findReaderById(Long readerId) {
-        return readerMapper.selectReaderById(readerId);
+        Reader reader = readerMapper.selectReaderById(readerId);
+        if (reader == null) {
+            //查询不到数据
+            throw new CustomizeException(ResultCode.RECORD_NOT_FOUND,"查询不到该读者");
+        }
+        return reader;
     }
 }

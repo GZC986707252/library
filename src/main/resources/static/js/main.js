@@ -5,101 +5,115 @@ layui.use(['table', 'form', 'jquery', 'layer','laytpl'], function() {
 		laytpl = layui.laytpl,
 		form = layui.form ;
 
-	//查询读者
-	$("#search_reader").click(function(){
-		var readerId=$("#readerId").val();
-		if(readerId.length==0) return;
-		$.getJSON("../static/api/reader_info.json",function(res){
-			console.log(res);
+
+	/**
+	 * 根据读者ID,请求读者信息和读者借阅记录信息，并渲染到模板
+	 * @param readerId
+	 */
+	function readerDetailRender(readerId) {
+		$.getJSON("/reader/list/"+readerId,function(res){
 			if(res.code!=0){
-				return ;
+				return layer.msg(res.msg,{icon:2});
 			}
 			//渲染读者信息模板
 			laytpl($("#reader_info_tmpl").html()).render(res.data,function(html){
 				$("#reader_info").html(html);
 			});
 			//请求获取该读者的借阅记录
-			$.getJSON("../static/api/borrow.json",function(res){
-				console.log(res);
+			$.getJSON("/main/borrow_record",{readerId:readerId},function(res){
 				if(res.code!=0){
 					return ;
 				}
-				layui.each(res.data,function(index,item){
+				$("#borrow_info").html("");
+				$.each(res.data, function (index, item) {
 					laytpl($("#borrow_info_tmpl").html()).render(item,function(html){
 						$("#borrow_info").append(html);
 					});
 				});
 			});
 		});
-	});
-	
-	//查询书籍
-	$("#search_book").click(function(){
-		var bookId=$("#bookId").val();
-		if(bookId.length==0) return;
-		$.getJSON("../static/api/book_info.json",function(res){
-			console.log(res);
+	}
+
+	/**
+	 * 根据书籍ID,请求书籍信息并渲染模板
+	 * @param bookId
+	 */
+	function bookRender(bookId) {
+		$.getJSON("/book/list/"+bookId,function(res){
 			if(res.code!=0){
-				return ;
+				return layer.msg(res.msg,{icon:2});
 			}
 			//渲染书籍信息模板
 			laytpl($("#book_info_tmpl").html()).render(res.data,function(html){
 				$("#book_info").html(html);
 			});
 		});
+	}
+
+	//查询读者
+	$("#search_reader").click(function(){
+		let readerId=$("#readerId").val();
+		if(readerId.length==0) return;
+		if (!(/^\d+$/.test(readerId))) {
+			return layer.msg("输入只能为数字", {icon: 2});
+		}
+		readerDetailRender(readerId);
 	});
 	
+	//查询书籍
+	$("#search_book").click(function(){
+		let bookId=$("#bookId").val();
+		if(bookId.length==0) return;
+		if (!(/^\d+$/.test(bookId))) {
+			return layer.msg("输入只能为数字", {icon: 2});
+		}
+		bookRender(bookId);
+	});
+
 	//确认借书
 	$("#borrow_book").click(function(){
-		var readerId=$("#readerId").val(),
+		let readerId=$("#readerId").val(),
 			bookId=$("#bookId").val();
 		if(readerId.length==0 || bookId.length==0){
 			return layer.msg("读者证或者书籍编号不能为空！",{icon:2});
 		}
-		$.ajax({
-			url:'../static/api/borrow_test.json',
-			type:'get',
-			// data: ,
-			contentType:'application/json',
-			dataType:'json',
-			success:function(res){
-				console.log(res);
-				if(res.code!=0){
-					return layer.msg(res.msg,{icon:2})
-				}
-				return layer.msg("借书成功!",{icon:1,time:1500},function(){
-					laytpl($("#borrow_info_tmpl").html()).render(res.data,function(html){
-						$("#borrow_info").append(html);
-					});
-				});
-			},
-			error:function(){
-				return layer.msg("服务器出错!",{icon:2});
+		if (!(/^\d+$/.test(readerId)) || !(/^\d+$/.test(bookId))) {
+			return layer.msg("输入只能为数字", {icon: 2});
+		}
+		$.post('/main/borrow',{readerId:readerId,bookId:bookId},function (res) {
+			console.log(res);
+			if(res.code!=0){
+				return layer.msg(res.msg,{icon:2})
 			}
-		});
+			return layer.msg("借书成功",{icon:1,time:1500},function(){
+				readerDetailRender(readerId);
+				bookRender(bookId);
+			});
+		},'json');
 	});
 	
 	
 	//还书
 	$("#return_book").click(function(){
-		var bookId=$("#bookId").val();
+		let bookId=$("#bookId").val();
 		if(bookId.length==0){
 			return layer.msg("书籍编号不能为空！",{icon:2});
 		}
-		//ajax
-	});
-	
-	//处理缴费
-	$("#handle_fine").click(function(){
-		var readerId=$("#readerId").val();
-		if(readerId.length==0){
-			return layer.msg("读者证号不能为空！",{icon:2});
+		if (!(/^\d+$/.test(bookId))) {
+			return layer.msg("输入只能为数字", {icon: 2});
 		}
-		//ajax
-		layer.confirm("确认读者已缴费？",{title:'模拟缴费',icon:3},function(){
-			//ajax
-			return layer.msg("缴费成功！",{icon:1});
-		});
+		$.post("/main/return",{bookId:bookId},function (res) {
+			console.log(res);
+			if(res.code!=0){
+				return layer.msg(res.msg,{icon:2})
+			}
+			let readerId=res.data.readerId;
+			return layer.msg("还书成功",{icon:1,time:1500},function(){
+				$("#readerId").val(readerId);
+				readerDetailRender(readerId);
+				bookRender(bookId);
+			});
+		},'json');
 	});
 	
 });

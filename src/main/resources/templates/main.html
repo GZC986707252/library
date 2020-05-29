@@ -29,23 +29,38 @@
 					<div class="layui-inline">
 						<button class="layui-btn" id="search_book">查询书籍</button>
 						<button class="layui-btn layui-btn-normal" id="borrow_book">借书</button>
-						<button class="layui-btn layui-btn-warm" id="return_book">还书</button>
-						<button class="layui-btn layui-btn-danger" id="handle_fine">处理欠费</button>
+						<button class="layui-btn layui-btn-normal" id="return_book">还书</button>
 					</div>
 				</div>
 			</div>
 			<div class="layui-row">
 				<div class="layui-col-md6">
-					<fieldset class="layui-elem-field">
+					<fieldset class="layui-elem-field" style="height: 233px">
 						<legend>读者信息</legend>
-						<div class="layui-field-box" id="reader_info" style="font-size: 17px;">
+						<div class="layui-field-box">
+							<table class="layui-table" lay-even lay-skin="nob" lay-size="sm">
+								<colgroup>
+									<col width="30">
+									<col width="100">
+								</colgroup>
+								<tbody id="reader_info"></tbody>
+							</table>
 						</div>
 					</fieldset>
 				</div>
 				<div class="layui-col-md6">
-					<fieldset class="layui-elem-field">
+					<fieldset class="layui-elem-field" style="height: 233px">
 						<legend>书籍信息</legend>
-						<div class="layui-field-box" id="book_info" style="font-size: 17px;">
+						<div class="layui-field-box">
+							<table class="layui-table" lay-even lay-skin="nob" lay-size="sm">
+								<colgroup>
+									<col>
+									<col>
+									<col>
+									<col>
+								</colgroup>
+								<tbody id="book_info"></tbody>
+							</table>
 						</div>
 					</fieldset>
 				</div>
@@ -68,7 +83,7 @@
 							</colgroup>
 							<thead>
 								<tr>
-									<th>编号</th>
+									<th>书籍编号</th>
 									<th>书名</th>
 									<th>ISBN</th>
 									<th>作者</th>
@@ -89,45 +104,84 @@
 	</body>
 	<script type="text/javascript" th:src="@{/js/main.js}"></script>
 	<script type="text/html" id="reader_info_tmpl">
-		<p>读者证号: {{ d.readerId }}</p>
-		<p>读者姓名: {{ d.readerName }}</p>
-		<p>手机号: {{ d.phone }}</p>
-		<p>欠款金额: {{ d.fine }}</p>
-		<p>状态: 
-		{{# if(d.status){  }}
-			停用
-		{{# }else{  }}
-			正常
-		{{# }  }}
-		</p>
-		<p>注册时间: {{ d.createTime }}</p>
+		<tr>
+			<td>读者证号</td>
+			<td>{{ d.readerId }}</td>
+		</tr>
+		<tr>
+			<td>读者姓名</td>
+			<td>{{ d.readerName }}</td>
+		</tr>
+		<tr>
+			<td>手机号</td>
+			<td>{{ d.phone }}</td>
+		</tr>
+		<tr>
+			<td>欠款金额/元</td>
+			<td>{{ d.fine }}</td>
+		</tr>
+		<tr>
+			<td>状态</td>
+			<td>
+				{{# if(d.status){  }}
+				<span class="layui-badge">停用</span>
+				{{# }else{  }}
+				<span class="layui-badge layui-bg-blue">正常</span>
+				{{# }  }}
+			</td>
+		</tr>
+		<tr>
+			<td>注册时间</td>
+			<td>{{ d.createTime }}</td>
+		</tr>
 	</script>
 	<script type="text/html" id="book_info_tmpl">
-		<p>书籍编号: {{ d.bookId }}</p>
-		<p>书籍名称: {{ d.bookName }}</p>
-		<p>ISBN: {{ d.isbn }}</p>
-		<p>作者: {{ d.author }}</p>
-		<p>出版社: {{ d.press }}</p>
-		<p>出版日期: {{ d.publicationDate }}</p>
-		<p>价格: {{ d.price }}</p>
-		<p>在馆状态: 
-		{{# if(d.status){  }}
-			已借出
-		{{# }else{  }}
-			在馆
-		{{# }  }}
-		</p>
-		<p>上架时间: {{ d.createTime }}</p>
+		<tr>
+			<td>书籍编号</td>
+			<td>{{ d.bookId }}</td>
+			<td>价格/元</td>
+			<td>{{ d.price }}</td>
+		</tr>
+		<tr>
+			<td>书籍名称</td>
+			<td>{{ d.bookName }}</td>
+			<td>在馆状态</td>
+			<td>
+				{{# if(d.status){  }}
+				<span class="layui-badge">已借出</span>
+				{{# }else{  }}
+				<span class="layui-badge layui-bg-blue">在馆</span>
+				{{# }  }}
+			</td>
+		</tr>
+		<tr>
+			<td>ISBN</td>
+			<td>{{ d.isbn }}</td>
+			<td>上架时间</td>
+			<td>{{ d.createTime }}</td>
+		</tr>
+		<tr>
+			<td>作者</td>
+			<td>{{ d.author }}</td>
+		</tr>
+		<tr>
+			<td>出版社</td>
+			<td>{{ d.press }}</td>
+		</tr>
+		<tr>
+			<td>出版日期</td>
+			<td>{{ d.publicationDate }}</td>
+		</tr>
 	</script>
 	<script type="text/html" id="borrow_info_tmpl">
 		<tr>
-			<td>{{ d.bookId }}</td>
-			<td>{{ d.bookName }}</td>
-			<td>{{ d.isbn }}</td>
-			<td>{{ d.author }}</td>
-			<td>{{ d.press }}</td>
-			<td>{{ d.publicationDate }}</td>
-			<td>{{ d.price }}</td>
+			<td>{{ d.bookInfo.bookId }}</td>
+			<td>{{ d.bookInfo.bookName }}</td>
+			<td>{{ d.bookInfo.isbn }}</td>
+			<td>{{ d.bookInfo.author }}</td>
+			<td>{{ d.bookInfo.press }}</td>
+			<td>{{ d.bookInfo.publicationDate }}</td>
+			<td>{{ d.bookInfo.price }}</td>
 			<td>{{ d.borrowTime }}</td>
 			<td>{{ d.expireTime }}</td>
 		</tr>

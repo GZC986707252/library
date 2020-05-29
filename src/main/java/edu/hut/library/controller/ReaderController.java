@@ -58,10 +58,7 @@ public class ReaderController {
     @GetMapping("/list/{rid}")
     public ResultVO getReader(@PathVariable Integer rid) {
         Reader reader = readerService.findReaderById(rid.longValue());
-        if (reader == null) {
-            //查询不到数据
-            return new ResultVO(ResultCode.RECORD_NOT_FOUND,null);
-        }
+
         return new ResultVO(ResultCode.SUCCESS, reader);
     }
 
