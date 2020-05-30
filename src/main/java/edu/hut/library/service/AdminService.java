@@ -10,7 +10,7 @@ import javax.servlet.http.HttpSession;
  */
 public interface AdminService {
 
-    boolean login(HttpSession session,String name,String password);
+    void login(HttpSession session,String name,String password);
 
     Admin findAdminByName(String adminName);
 

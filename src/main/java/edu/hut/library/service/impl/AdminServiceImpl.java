@@ -27,7 +27,7 @@ public class AdminServiceImpl implements AdminService {
      * @return
      */
     @Override
-    public boolean login(HttpSession session,String name,String password) {
+    public void login(HttpSession session,String name,String password) {
         Admin admin = findAdminByName(name);
         if(admin==null){  //用户不存在
             throw new CustomizeException(ResultCode.USER_NOT_FOUND);
@@ -37,7 +37,6 @@ public class AdminServiceImpl implements AdminService {
             throw new CustomizeException(ResultCode.PASSWORD_ERROR);
         }
         session.setAttribute("admin",admin);
-        return true;
     }
 
     @Override

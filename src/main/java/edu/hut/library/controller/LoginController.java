@@ -1,5 +1,6 @@
 package edu.hut.library.controller;
 
+import edu.hut.library.pojo.Admin;
 import edu.hut.library.service.AdminService;
 import edu.hut.library.util.ResultCode;
 import edu.hut.library.util.ResultVO;
@@ -7,9 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 /**
  * @Description:
@@ -25,18 +28,14 @@ public class LoginController {
     /**
      * 登录处理
      * @param session
-     * @param adminName
-     * @param password
+     * @param admin
      * @return
      */
     @PostMapping("/login.do")
     @ResponseBody
-    public ResultVO loginHandler(HttpSession session,String adminName,String password) {
-        if(adminService.login(session,adminName,password)){
-            return new ResultVO(ResultCode.SUCCESS,"/main");
-        }else {
-            return new ResultVO(ResultCode.FAILED,null);
-        }
+    public ResultVO loginHandler(HttpSession session,@Valid Admin admin) {
+        adminService.login(session,admin.getAdminName(),admin.getPassword());
+        return new ResultVO(ResultCode.SUCCESS,"/main");
     }
 
     /**
