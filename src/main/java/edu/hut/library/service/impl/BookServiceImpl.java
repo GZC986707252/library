@@ -39,15 +39,6 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Book findBookById(Integer bookId) {
-        Book book = bookMapper.selectBookById(bookId);
-        if (book == null) {
-            throw new CustomizeException(ResultCode.RECORD_NOT_FOUND,"查询不到该书籍");
-        }
-        return book;
-    }
-
-    @Override
     public List<Book> getBooksByBookParam(BookParam param) {
         return bookMapper.selectBooksByBookParam(param);
     }
@@ -55,5 +46,14 @@ public class BookServiceImpl implements BookService {
     @Override
     public int getCount() {
         return bookMapper.selectCount();
+    }
+
+    @Override
+    public Book findBookById(Integer bookId) {
+        Book book = bookMapper.selectBookById(bookId);
+        if (book == null) {
+            throw new CustomizeException(ResultCode.RECORD_NOT_FOUND,"查询不到该书籍");
+        }
+        return book;
     }
 }
