@@ -26,7 +26,7 @@ public class DeleteMethodInterceptor implements HandlerInterceptor {
             return true;
         }
         Admin admin= (Admin) session.getAttribute("admin");
-        if (!"502胶".equals(admin.getAdminName())) {
+        if (!"502".equals(admin.getAdminName())) {
             throw new CustomizeException(ResultCode.ACCESS_DENIED);
         }
         return true;

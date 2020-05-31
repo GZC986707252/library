@@ -24,12 +24,18 @@ public class ReaderServiceImpl implements ReaderService {
     @Resource
     private ReaderMapper readerMapper;
 
+    /**
+     * 多条件查询读者
+     * @param param
+     * @return
+     */
     @Override
     public List<Reader> getReadersByReaderParam(ReaderParam param) {
         List<Reader> readers=readerMapper.selectReadersByReaderParam(param);
         return readers;
     }
 
+    //获得总数
     @Override
     public int getCount() {
         return readerMapper.selectCount();
@@ -50,6 +56,11 @@ public class ReaderServiceImpl implements ReaderService {
         return readerMapper.deleteReaderById(readerId);
     }
 
+    /**
+     * 根据读者ID查询读者
+     * @param readerId
+     * @return
+     */
     @Override
     public Reader findReaderById(Long readerId) {
         Reader reader = readerMapper.selectReaderById(readerId);
